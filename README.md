@@ -162,7 +162,7 @@ All data are publicly available. No individual-level or restricted-access data a
 
 ## Citation
 
-> Farquhar, H. (2026). Did Australia's 2023 PBS copayment reduction increase prescription volumes or reduce geographic inequity? A natural experiment using methodological triangulation. *Preprint (SSRN)*. Manuscript under consideration at a peer-reviewed journal.
+> Farquhar, H. (2026). Did Australia's 2023 PBS copayment reduction increase prescription volumes or reduce geographic inequity? A natural experiment using methodological triangulation. *Preprint (SSRN)*. https://dx.doi.org/10.2139/ssrn.6397558. Manuscript under consideration at a peer-reviewed journal.
 
 ## License
 
