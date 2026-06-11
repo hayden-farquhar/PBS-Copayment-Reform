@@ -6,6 +6,8 @@ Analytical code for: **"Did Australia's 2023 PBS copayment reduction increase pr
 **Contact:** hayden.farquhar@icloud.com
 **ORCID:** 0009-0002-6226-440X
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20637082.svg)](https://doi.org/10.5281/zenodo.20637082)
+
 ## Overview
 
 This repository contains the data acquisition, cleaning, and analysis scripts to replicate all findings reported in the manuscript. The study evaluates Australia's January 2023 reduction in the Pharmaceutical Benefits Scheme (PBS) general patient copayment from $42.50 to $30.00, using more than two decades of national dispensing data (May 2002–December 2025).
@@ -187,6 +189,8 @@ All data are publicly available. No individual-level or restricted-access data a
 > Farquhar, H. (2026). Did Australia's 2023 PBS copayment reduction increase prescription volumes? A robust null from an event-study and triple-difference natural experiment. Manuscript under consideration at a peer-reviewed journal.
 
 A preprint of this work is available on SSRN (DOI 10.2139/ssrn.6397558); it has been updated to the current event-study / triple-difference version that this code reproduces.
+
+This code is archived on Zenodo. Cite the all-versions DOI [10.5281/zenodo.20637082](https://doi.org/10.5281/zenodo.20637082), which always resolves to the latest release; the v1.0.0 release is [10.5281/zenodo.20637083](https://doi.org/10.5281/zenodo.20637083).
 
 ## License
 
