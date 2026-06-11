@@ -1,0 +1,13 @@
+{
+  "title": "PBS Copayment Reform: Replication Code",
+  "description": "Data acquisition, cleaning, and analysis code for an event-study and triple-difference natural-experiment evaluation of Australia's January 2023 PBS general patient copayment reduction ($42.50 to $30.00) on prescription dispensing volumes.",
+  "upload_type": "software",
+  "license": "MIT",
+  "creators": [
+    {
+      "name": "Farquhar, Hayden",
+      "orcid": "0009-0002-6226-440X",
+      "affiliation": "Independent Researcher"
+    }
+  ]
+}
