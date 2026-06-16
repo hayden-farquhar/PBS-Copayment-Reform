@@ -1,6 +1,6 @@
 {
   "title": "PBS Copayment Reform: Replication Code",
-  "description": "Data acquisition, cleaning, and analysis code for an event-study and triple-difference natural-experiment evaluation of Australia's January 2023 PBS general patient copayment reduction ($42.50 to $30.00) on prescription dispensing volumes.",
+  "description": "Data acquisition, cleaning, and analysis code for a natural-experiment evaluation of Australia's January 2023 PBS general patient copayment reduction ($42.50 to $30.00). Identification uses an event-study and triple-difference design, with first-stage, dose-response, de-seasonalisation, pre-period anchor, HonestDiD, placebo-in-time, distributional (equity), and 60-day-dispensing robustness checks. The reform produced no detectable change in dispensing.",
   "upload_type": "software",
   "license": "MIT",
   "creators": [

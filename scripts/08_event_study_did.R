@@ -111,6 +111,10 @@ EVENT_REF <- -1L
 # Clean post-window upper bound (event months 0..CLEAN_POST_MAX inclusive) that
 # precede the Nov-2023 bulk-billing shock. Nov 2023 is event month +10.
 CLEAN_POST_MAX <- 9L   # Jan 2023 .. Oct 2023
+# Strict pre-60-day-rollout upper bound: 60-day dispensing began 1 Sep 2023
+# (event month +8), so months 0..7 = Jan-Aug 2023 fully predate it. Used for the
+# 60-day robustness check (Section 9b; eTable S12), added 2026-06-16.
+CLEAN_POST_MAX_STRICT <- 7L   # Jan 2023 .. Aug 2023
 
 # Primary event-study display window (months pre/post). Pre-period anchors are
 # varied separately in Section 5.
@@ -1054,6 +1058,36 @@ message("  - INTERPRETATION: a GENUINE null requires (a) a firing first stage, (
 message("    flat dose-response, (c) a DDD near zero, AND (d) HonestDiD bounds that")
 message("    stay near zero. Non-identification looks different: large first stage but")
 message("    pre-trends/placebo that swamp any post step.")
+# --- Section 9b. 60-day-rollout robustness: Jan-Aug 2023 (pre-rollout) -------
+# 60-day-dispensing robustness (added 2026-06-16). 60-day dispensing began 1 Sep
+# 2023 and differentially cuts the chronic-heavy 65+ control arm's script counts,
+# in principle biasing the general-minus-concessional contrast upward. The clean window (Jan-Oct) keeps
+# Sep-Oct; here we restrict to Jan-Aug 2023 (event months 0..CLEAN_POST_MAX_STRICT),
+# which fully predates the rollout. A null here confirms the rollout does not drive
+# the result. Fills eTable S12. Reuses the global ds_frame (Section 6) and ddd
+# (Section 9) frames; wrapped in tryCatch so a Section-9 failure does not abort.
+message("\n=== Section 9b: 60-day pre-rollout robustness (Jan-Aug 2023) ===")
+sixty_tbl <- tryCatch({
+  ds_frame[, clean_strict := as.integer(event_time >= 0 & event_time <= CLEAN_POST_MAX_STRICT)]
+  ds_frame[, clean_strict_general := clean_strict * is_general]
+  specE_ds_strict <- feols(y_adj ~ clean_strict_general | lga_code^age_group + date,
+                           data = ds_frame[event_time <= CLEAN_POST_MAX_STRICT | event_time < 0],
+                           cluster = ~lga_code)
+  ddd[, clean_strict := as.integer(event_time >= 0 & event_time <= CLEAN_POST_MAX_STRICT)]
+  ddd[, ddd_clean_strict := clean_strict * is_general * is_high]
+  ddd_strict <- feols(scripts_per_erp ~ ddd_clean_strict
+                      | atc_name^age_group + age_group^date + atc_name^date,
+                      data = ddd[event_time <= CLEAN_POST_MAX_STRICT | event_time < 0],
+                      cluster = ~atc_name)
+  out <- bind_rows(
+    extract_att(specE_ds_strict, "De-seasonalised clean-window ATT, Jan-Aug 2023", "clean_strict_general"),
+    extract_att(ddd_strict, "Triple-difference (DDD), Jan-Aug 2023", "ddd_clean_strict")
+  )
+  write_csv(out, file.path(tab_dir, "sixty_day_robustness.csv"))
+  message("  Saved sixty_day_robustness.csv  (fills eTable S12)"); print(out)
+  out
+}, error = function(e) { message("  60-day robustness FAILED: ", conditionMessage(e)); NULL })
+
 message("\nCAVEAT to carry into the manuscript Methods/Limitations:")
 message("  The 65+/19-64 age proxy is leaky - concession-card holders include")
 message("  working-age Health Care Card / pensioner / DVA / CSHC holders, so the")
@@ -1064,5 +1098,6 @@ message("        event_study_pretrend_tests.csv, did_att_specifications.csv,")
 message("        did_preperiod_anchor_grid.csv, event_study_lga_deseasonalised.csv,")
 message("        did_att_deseasonalised.csv, did_preperiod_anchor_grid_deseasonalised.csv,")
 message("        first_stage_benefit_per_script.csv, dose_response_classes.csv,")
-message("        ddd_results.csv, honestdid_sensitivity.csv, placebo_in_time.csv")
+message("        ddd_results.csv, honestdid_sensitivity.csv, placebo_in_time.csv,")
+message("        sixty_day_robustness.csv")
 message("Figures: fig29-fig38")
